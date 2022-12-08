@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import ru.ezuykow.examapp.models.Task;
 import ru.ezuykow.examapp.services.ExaminerService;
 import ru.ezuykow.examapp.services.TaskService;
+import ru.ezuykow.examapp.services.task.math.MathTaskService;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -16,12 +17,12 @@ import java.util.Set;
 public class ExaminerServiceImpl implements ExaminerService {
 
     private final TaskService javaTaskService;
-    private final TaskService mathTaskService;
+    private final MathTaskService mathTaskService;
     private final ExaminerServiceUtil utils;
 
     @Autowired
     public ExaminerServiceImpl(@Qualifier("javaTaskService") TaskService javaTaskService,
-                               @Qualifier("mathTaskService") TaskService mathTaskService,
+                               MathTaskService mathTaskService,
                                ExaminerServiceUtil utils) {
         this.javaTaskService = javaTaskService;
         this.mathTaskService = mathTaskService;
@@ -30,8 +31,8 @@ public class ExaminerServiceImpl implements ExaminerService {
 
     @Override
     public Collection<Task> getTasks(int amount) {
-        int questionCount = javaTaskService.getAll().size() + mathTaskService.getAll().size();
-        utils.checkForAmountLessWhenTasksCount(questionCount, amount);
+        int maxQuestionCount = javaTaskService.getAll().size() * 2;
+        utils.checkForAmountLessWhenTasksCount(maxQuestionCount, amount);
 
         Set<Task> tasks = new HashSet<>(amount);
         Random r = new Random();

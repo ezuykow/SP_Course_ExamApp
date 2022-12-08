@@ -42,7 +42,6 @@ class ExaminerServiceImplTest {
         ));
 
         when(javaTaskService.getAll()).thenReturn(javaTasks);
-        when(mathTaskService.getAll()).thenReturn(mathTasks);
         when(javaTaskService.getRandomTask()).thenReturn(mathTasks.get(0));
         when(mathTaskService.getRandomTask()).thenReturn(javaTasks.get(0));
 
